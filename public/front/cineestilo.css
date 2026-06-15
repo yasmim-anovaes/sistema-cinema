@@ -1,0 +1,455 @@
+/* ================== CONFIGURAÇÕES GERAIS ================== */
+body {
+    background-color: #121212;
+    background-image: 
+        radial-gradient(circle at center, rgba(40, 40, 40, 0.8) 0%, rgba(10, 10, 10, 1) 100%),
+        url("https://www.transparenttextures.com/patterns/stardust.png");
+    background-attachment: fixed;
+    color: #f1f1f1;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ================== HEADER ================== */
+header {
+    background-color: rgba(17, 17, 17, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(220, 20, 60, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}/* ================== RESPONSIVIDADE (CELULAR) ================== */
+
+@media (max-width: 768px) {
+    /* Header vira uma coluna */
+    header {
+        flex-direction: column;
+        padding: 15px;
+        text-align: center;
+    }
+
+    /* Barra de pesquisa ocupa a largura toda */
+    header input {
+        width: 100%;
+        max-width: none;
+        order: 2; /* Coloca a busca no meio */
+    }
+
+    .header-esquerda { order: 1; }
+    .header-direita { 
+        order: 3; 
+        width: 100%; 
+        justify-content: center; 
+        gap: 10px;
+    }
+
+    /* Botões um pouco menores para caberem lado a lado no celular */
+    #botao-entrar, #boat {
+        flex: 1; 
+        font-size: 12px;
+        padding: 8px 5px;
+    }
+
+    /* Carrossel: diminui a altura para não ocupar a tela toda */
+    .carousel-item img {
+        height: 250px;
+    }
+
+    /* Listas de filmes: agora mostram 2 filmes por linha em vez de 1 */
+    .lista-filmes, .em-breve, .pipoca {
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .lista-filmes li, .em-breve li, .pipoca li {
+        width: 45%; /* Cabe dois filmes por linha */
+    }
+
+    .lista-filmes img, .em-breve img, .pipoca img {
+        width: 100%; /* Imagem segue o tamanho da li */
+        height: auto; /* Mantém a proporção */
+    }
+
+    h3 {
+        width: 100%; /* Título acompanha a foto pequena */
+        font-size: 0.9rem;
+    }
+
+    /* Títulos das seções */
+    h2 {
+        font-size: 1.4rem;
+        text-align: center;
+        padding-left: 0;
+    }
+
+    /* Modal (Telinha de login) mais larga no celular */
+    #form-entrar, #form-cadastrar {
+        width: 95%;
+        padding: 30px 20px;
+    }
+}
+
+.header-esquerda img { max-width: 150px; height: auto; }
+
+header input {
+    width: 300px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid #333;
+    background-color: #222;
+    color: #fff;
+    outline: none;
+    transition: 0.3s;
+}
+
+header input:focus { border-color: crimson; box-shadow: 0 0 5px crimson; }
+
+/* ================== BOTÕES ================== */
+/* ================== ALINHAMENTO DOS BOTÕES DO HEADER ================== */
+.header-direita {
+    display: flex;
+    align-items: center; /* Alinha verticalmente no centro */
+    justify-content: flex-end;
+    gap: 15px; /* Espaço igual entre eles */
+}
+
+/* Força os dois botões a terem o mesmo tamanho e estilo base */
+#botao-entrar, #boat {
+    height: 40px;          /* Altura fixa para ambos */
+    min-width: 100px;      /* Largura mínima para não ficarem "magros" demais */
+    padding: 0 20px;       /* Espaçamento interno lateral */
+    display: flex;
+    align-items: center;   /* Centraliza o texto dentro do botão */
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    white-space: nowrap;   /* Impede o texto de quebrar linha */
+}
+
+/* Diferenciando as cores se você quiser um destaque no cadastrar */
+#botao-entrar {
+    background-color: transparent;
+    border: 1px solid crimson;
+    color: #fff;
+}
+
+#boat {
+    background-color: crimson;
+    color: #fff;
+}
+
+/* Efeito Hover para ambos */
+#botao-entrar:hover, #boat:hover {
+    background-color: #ff1e4d;
+    color: #fff;
+    transform: translateY(-2px); /* Efeito de levante */
+    box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);
+}
+#usuario-logado {
+    color: crimson;
+    font-weight: bold;
+    margin-left: 15px;
+    text-shadow: 0 0 8px rgba(220, 20, 60, 0.4);
+}
+
+/* ================== CARROSSEL (SETAS CENTRALIZADAS) ================== */
+/* ================== CARROSSEL MODERNO ================== */
+
+.carousel {
+    margin-top: 20px;
+    padding: 0 5%;
+}
+
+/* Container da imagem com overlay */
+.carousel-item {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* Imagem mais elegante e responsiva */
+.carousel-item img {
+    width: 100%;
+    height: 580px;
+    object-fit: cover;
+    filter: brightness(0.75);
+    transition: transform 0.5s ease, filter 0.3s ease;
+}
+
+/* Zoom suave quando ativo */
+.carousel-item.active img {
+    transform: scale(1.05);
+    filter: brightness(0.9);
+}
+
+/* Overlay escuro com gradiente */
+.carousel-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2));
+    z-index: 1;
+}
+
+/* Texto dentro do carrossel */
+.carousel-caption {
+    z-index: 2;
+    bottom: 20%;
+    text-align: left;
+    max-width: 500px;
+}
+
+.carousel-caption h5 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.carousel-caption p {
+    font-size: 1rem;
+    color: #ddd;
+}
+
+/* ================== BOTÕES DE NAVEGAÇÃO ================== */
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 45px !important;
+    height: 45px !important;
+    background: rgba(220, 20, 60, 0.6) !important;
+    border-radius: 50% !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background: crimson !important;
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Posicionamento */
+.carousel-control-prev { left: 15px !important; }
+.carousel-control-next { right: 15px !important; }
+
+/* ================== INDICADORES (BOLINHAS) ================== */
+
+.carousel-indicators [data-bs-target] {
+    background-color: #aaa;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.carousel-indicators .active {
+    background-color: crimson;
+    transform: scale(1.2);
+}
+
+/* ================== RESPONSIVO ================== */
+
+@media (max-width: 768px) {
+    .carousel-item img {
+        height: 250px;
+    }
+
+    .carousel-caption {
+        bottom: 10%;
+    }
+
+    .carousel-caption h5 {
+        font-size: 1.2rem;
+    }
+
+    .carousel-caption p {
+        font-size: 0.8rem;
+    }
+}
+
+/* ================== MODAL (LOGIN/CADASTRO) ================== */
+/* ================== MODAL (LOGIN/CADASTRO) ================== */
+#overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+#form-entrar, #form-cadastrar {
+    background: #1a1a1a;
+    padding: 40px;
+    border-radius: 12px;
+    width: 90%;             /* Garante margem em telas menores */
+    max-width: 380px;
+    border: 1px solid crimson;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    
+    /* Força todo o conteúdo interno a se alinhar no centro */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box; /* Garante que o padding não quebre o tamanho */
+}
+
+/* Ajuste do Título do Modal */
+#overlay h3 { 
+    color: #fff; 
+    font-size: 1.5rem; 
+    margin-bottom: 20px; 
+    width: 100%;           /* Ocupa a largura real do card */
+    white-space: normal; 
+}
+
+/* Ajuste dos Inputs para não estourarem o tamanho do card */
+#overlay input {
+    width: 100% !important;
+    padding: 12px !important;
+    margin-bottom: 15px !important;
+    background: #252525 !important;
+    border: 1px solid #444 !important;
+    color: #fff !important;
+    border-radius: 6px !important;
+    box-sizing: border-box !important; /* CRITICAL: Impede o input de passar do limite do card */
+}
+
+#overlay input::placeholder { color: #aaa !important; }
+
+
+
+/* ================== LISTAS DE FILMES ================== */
+.lista-filmes, .em-breve, .pipoca {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 40px 5%;
+    list-style: none;
+}
+
+h2 { padding-left: 5%; color: crimson; text-transform: uppercase; }
+
+.lista-filmes img, .em-breve img, .pipoca img {
+    width: 200px; height: 280px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: 0.4s;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.lista-filmes img:hover { transform: scale(1.1); box-shadow: 0 0 20px crimson; }
+
+.hidden { display: none !important; }
+/* ================== AJUSTE DOS TÍTULOS (RETICÊNCIAS) ================== */
+h3 {
+    font-size: 1rem;
+    margin-top: 12px;
+    color: #ddd;
+    font-weight: 500;
+    text-align: center;
+
+    /* REGRAS PARA OS TRÊS PONTOS (...) */
+    white-space: nowrap;      /* Impede o texto de pular linha */
+    overflow: hidden;         /* Esconde o que sobrar da largura */
+    text-overflow: ellipsis;  /* Adiciona os "..." no final */
+    
+    width: 200px;             /* Garante que o texto tenha a mesma largura da foto */
+    display: block;           /* Necessário para o overflow funcionar bem */
+}
+
+/* Ajuste fino na lista para os itens não colarem */
+.lista-filmes li, .em-breve li, .pipoca li {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+.lista-filmes img:hover,
+.em-breve img:hover,
+.pipoca img:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 0 20px crimson; 
+    border-color: crimson; 
+    cursor: pointer;
+}
+#btn-login, #btn-cadastro,#btn-fechar {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, crimson, #ff1e4d);
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4);
+}
+
+/* Hover (quando passa o mouse) */
+#btn-login:hover, #btn-cadastro:hover,#btn-fechar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 20, 60, 0.6);
+    background: linear-gradient(135deg, #ff1e4d, crimson);
+}
+
+/* Clique */
+#btn-login:active, #btn-cadastro:active,#btn-fechar:active {
+    transform: scale(0.97);
+}
+
+/* Opcional: botão secundário (se quiser diferenciar) */
+#btn-cadastro {
+    margin-top: 10px;
+    background: transparent;
+    border: 1px solid crimson;
+}
+#overlay input:focus {
+    border-color: crimson !important;
+    box-shadow: 0 0 10px crimson !important;
+}
+.btn-fechar {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, crimson, #ff1e4d);
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4);
+    margin-top: 10px;
+}
+
+/* Hover */
+.btn-fechar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 20, 60, 0.6);
+    background: linear-gradient(135deg, #ff1e4d, crimson);
+}
+
+/* Clique */
+.btn-fechar:active {
+    transform: scale(0.97);
+}

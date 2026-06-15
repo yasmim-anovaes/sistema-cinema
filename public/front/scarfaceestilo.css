@@ -1,0 +1,152 @@
+/* ====== RESET BÁSICO ====== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ====== BODY ====== */
+body {
+    background-color: #121212;
+    background-image:
+        radial-gradient(circle at top, rgba(40,40,40,0.8), #0a0a0a 60%),
+        url("https://www.transparenttextures.com/patterns/stardust.png");
+    background-attachment: fixed;
+    color: #f1f1f1;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/* ====== HEADER ====== */
+header {
+    background-color: rgba(17, 17, 17, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 30px 5%;
+    border-bottom: 1px solid rgba(220, 20, 60, 0.4);
+}
+
+.header-conteudo h1 {
+    font-size: 2.5rem;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.header-conteudo p {
+    margin-top: 5px;
+    color: #bbb;
+    font-size: 1rem;
+}
+
+/* ====== CONTAINER PRINCIPAL ====== */
+.container-principal {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 5%;
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+/* ====== COLUNAS ====== */
+.coluna-esquerda {
+    flex: 0 0 300px;
+}
+
+.coluna-direita {
+    flex: 1;
+}
+
+/* ====== FOTO DO FILME ====== */
+.foto-filme img {
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.foto-filme img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 45px rgba(220, 20, 60, 0.4);
+}
+
+figcaption {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+/* ====== DESCRIÇÃO ====== */
+.descricao h2 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+.descricao p {
+    margin-bottom: 15px;
+    color: #ddd;
+    font-size: 1rem;
+}
+
+/* ====== BOTÃO ====== */
+.botao-comprar {
+    margin-top: 20px;
+    background-color: crimson;
+    color: #fff;
+    border: none;
+    padding: 14px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.botao-comprar:hover {
+    background-color: #ff2b55;
+    box-shadow: 0 10px 25px rgba(220, 20, 60, 0.5);
+    transform: translateY(-3px);
+}
+
+.botao-fechar{
+    margin-top: 20px;
+    background-color: crimson;
+    color: #fff;
+    border: none;
+    padding: 14px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.botao-fechar:hover{
+background-color: #ff2b55;
+    box-shadow: 0 10px 25px rgba(220, 20, 60, 0.5);
+    transform: translateY(-3px);
+}
+
+/* ====== RESPONSIVO ====== */
+@media (max-width: 768px) {
+    .container-principal {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .coluna-esquerda {
+        max-width: 280px;
+    }
+
+    .descricao h2 {
+        text-align: center;
+    }
+
+    .botao-comprar {
+        width: 100%;
+    }
+}

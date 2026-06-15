@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UtF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name ="description" content = "Esta metetg descreve o resumo do conteudo da pagina,
+    auxilia na disponibilidade do conteudo da pagina para os macanismos de busca">
+    <meta name="keywords"content="metatags,SEO, acessibilidade, macanismos de busca,html">
+    <meta name = "authot"content = "Lorenzo Andrade">
+    <meta name ="language"content="pt-br">
+    <title> cineyas</title>
+    <link rel="stylesheet" href="cineestilo.css"
+>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   
+    
+    </head>
+
+
+    <body>
+    
+<header>
+  <div class="header-esquerda">
+    <h1><img src="Cineyas.png" alt="Logo Cineyas"></h1>
+  </div>
+
+  <div class="header-centro">
+    <input type="text" id="pesquisa" placeholder="Buscar">
+  </div>
+
+  <div class="header-direita">
+    <button class="btn" id="botao-entrar">Entrar</button>
+    <button class="btndestaque" id="boat">Cadastrar</button>
+    <span id="usuario-logado" class="hidden"></span>
+  </div>
+</header>
+
+<div id="overlay" class="hidden">
+
+  <div id="form-entrar" class="hidden"> 
+    <h3>Entrar</h3>
+    <input type="text" id="login-nome" placeholder="Digite seu nome de usuário">
+    <input type="password"id="login-senha"placeholder="Digite sua senha">
+    <button id="btn-login">Entrar</button>
+    <button class="btn-fechar" onclick="fechar()">Cancelar</button>
+  </div>
+
+  <div id="form-cadastrar" class="hidden">
+    <h3>Cadastrar</h3>
+    <input type="text" id="cad-nome" placeholder="Nome completo">
+    <input type="email" id="cad-email" placeholder="E-mail (ex: nome@email.com)">
+    <input type="password"id="cad-senha"placeholder="senha: 1234">
+    <input type="number" id="cad-idade" placeholder="Sua idade (ex: 25)">
+    <input type="number" id = "cad-cpf" placeholder="cpf (ex: 123.456.789-10)">
+    <button id="btn-cadastro">Finalizar Cadastro</button>
+    <button class="btn-fechar" onclick="fechar()">Voltar</button>
+  </div>
+
+</div>
+        <main>
+   <section>
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+ 
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="michael.avif" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Michael Jackson</h5>
+       
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="titaniccarro.jpg" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Titanic</h5>
+        
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="hxh.jpg" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>HunterxHunter</h5>
+      
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div> 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+            </section>
+         <section>
+            <h2>Lançamentos</h2>
+            <ul class="lista-filmes">
+                <li>
+                <figure class="imagens">
+                    <h3>Scarface</h3>
+                    <a href="scarface.html"><img src="scarface.jpg" alt="imagem do scarface"></a>
+                    
+                    <figcaption></figcaption>
+                    </li>
+                    
+                </figure>
+                </li>
+                <figure>
+                    <li>
+                    <h3>Barbie</h3>
+                    <a href="barbie.html"><img src="barbie.jpg" alt="Filme da barbie"></a>
+                    <figcaption></figcaption>
+                    </li>
+                </figure>
+                <figure>
+                    <li>
+                    <h3>Poderoso-Chefao</h3>
+                    <a href="poderchef.html"><img src="poderchef.jpg" alt="Filme do poderoso chefao"></a>
+                    <figcaption></figcaption>
+                    </li>
+                </figure>
+                <figure>
+                    <li>
+                     <h3>Titanic</h3>
+                     <a href="titanic.html"><img src="titanic.jpg" alt="Filme Titanic"></a>
+                     <figcaption></figcaption>
+                     </li>
+                </figure>
+                <figure>
+                    <li>
+                    <h3>HunterxHunter:Fantasma </h3>
+                   <a href="hunter.html"> <img src="filmehunter.jpg" alt="filme de HunterxHunter"></a>
+                    <figcaption></figcaption>
+                    </li>
+                </figure>
+                <figure>
+                    <li>
+                    <h3>Taxi-Drive </h3>
+                    <a href="taxi.html"><img src="taxidriver.webp" alt="Filme TaxiDrive"></a>
+                    <figcaption></figcaption>
+                    </li>
+                </figure>
+                <figure>
+                  <li>
+                    <h3>Diabo veste prada 2</h3>
+                   <a href="diabovest.html"><img src="diaboveste.jpg" alt="diaboveste"></a>
+                  </li>
+                </figure>
+                <figure>
+                  <li>
+                    <h3>Michael Jackson</h3>
+                    <a href="michael.html"><img src="michael.webp" alt="michael"></a>
+                  </li>
+                </figure>
+                <figure>
+                  <li>
+                    <h3>Crepúsculo</h3>
+                   <a href="crepusculo.html"> <img src="crupusculo.jpg" alt="crupusculo"></a>
+                  </li>
+                </figure>
+                <figure>
+                  <li>
+                    <h3>Todo mundo em pânico</h3>
+                    <a href="todomundo.html"><img src="todomund.webp" alt=""></a>
+                  </li>
+                </figure>
+            </ul>
+         </section>
+        <section>
+            <h2>Em Breve</h2>
+            <ul class="em-breve">
+               <figure>
+                <li>
+                    <h3>Invocação do mal 4</h3>
+                    <a href="invoca.html"><img src="invocacaodomal.webp" alt="filme invocacao do mal"></a>
+                    <figcaption></figcaption>
+                    </figure>
+                </li>
+                <figure>
+                <li>
+                    <h3>Se beber não case</h3>
+                    <a href="sebeber.html"><img src="sebeber.jpg" alt="Filme se beber nao case"></a>
+                    <figcaption></figcaption>
+                    
+                </li>
+                </figure>
+                <figure>
+                <li>
+                    <h3>Hora do pesadelo</h3>
+                    <a href="horapes.html"><img src="horadopesa.jpg" alt="Filme Hora do pesadelo"></a>
+                    <figcaption></figcaption>
+                </li>
+                </figure>
+                <li>
+                    <figure>
+                        <h3>Ilha do  medo</h3>
+                        <a href="ilhodomed.html"><img src="ilhadomedo.webp" alt="Filme ilha do medo"></a>
+                        <figcaption></figcaption>
+                    </figure>
+                </li>
+
+            </ul>
+        </section>
+        <section>
+           <h2> Aperitivos </h2>
+            <ul class="pipoca">
+
+                <li>
+                    <figure>
+                        <h3>Pipoca + Refri</h3>
+                        <a href="pipoca.html"><img src="pipocacrefri.png" alt="fotopipoca"></a>
+                        <figcaption>R$25,50</figcaption>
+                    </figure>
+
+                </li>
+                <li>
+                    <figure>
+                        <h3>2 Pipocas</h3>
+                        <a href="pipoca2.html"><img src="pipoca22.jpg" alt="fotopipocas"></a>
+                        <figcaption>R$30,00</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <h3>Refrigerante</h3>
+                        <a href="refri.html"><img src="refri.jpg" alt="fotorefri"></a>
+                        <figcaption>R$8,50</figcaption>
+                    </figure>
+
+                </li>
+
+            </ul>
+        </section>
+        
+        </main>
+        <footer>
+
+        </footer>
+        <script src="cinema.js"></script>
+
+    </body>

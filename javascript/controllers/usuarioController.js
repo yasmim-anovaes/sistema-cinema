@@ -1,25 +1,31 @@
-const usuario = require('../models/usuarioModel');
-
-exports.cadastrar = (req,res) =>{
-    const dados =req.body;
-
-    usuario.criar(dados, (err)=>{
-        if (err) return res.status(500).json(err);
-        res.json({mensagem : "Usuario cadastro com sucesso"});
-
-    });
-};
-
 exports.login = (req,res) => {
-    const {email,senha}= req.body;
 
-    usuario.login(email,senha, (err,resultado)=>{
-        if(err) return res.status(500).json(err);
+    console.log("=== LOGIN CHAMADO ===");
 
-        if(resultado.lenght > 0){
-            res.json({login: true,usuario:resultado[0]});
-        }else{
-            res.json({login:false})
+
+    const { email, senha } = req.body;
+
+    console.log("Email:", email);
+    console.log("Senha:", senha);
+
+    usuario.login(email, senha, (err, resultado) => {
+
+        if(err){
+            console.log("ERRO:", err);
+            return res.status(500).json(err);
         }
-    })
+
+        console.log("RESULTADO:", resultado);
+
+        if(resultado.length > 0){
+            res.json({
+                login: true,
+                usuario: resultado[0]
+            });
+        }else{
+            res.json({
+                login: false
+            });
+        }
+    });
 }

@@ -32,9 +32,14 @@
   <div class="header-direita">
     <button class="btn" id="botao-entrar">Entrar</button>
     <button class="btndestaque" id="boat">Cadastrar</button>
-    <span id="usuario-logado" class="hidden"></span>
+    <span id="usuario-logado" ></span>
+    <button class="btn" id="botao-abrir-filme" style="background-color: #28a745; color: white;">+ Filme</button>
   </div>
+
+  
 </header>
+
+
 
 <div id="overlay" class="hidden">
 
@@ -54,6 +59,18 @@
     <input type="number" id = "cad-cpf" placeholder="cpf (ex: 123.456.789-10)">
     <button id="btn-cadastro">Finalizar Cadastro</button>
     <button class="btn-fechar" onclick="fechar()">Voltar</button>
+  </div>
+
+  <div id="form-cadastrar-filme" class="hidden">
+    <h3>Cadastrar Novo Filme</h3>
+    <input type="text" id="filme-titulo" placeholder="Título do Filme">
+    <input type="text" id="filme-link" placeholder="Nome da página (ex: scarface.html)">
+    
+    <label for="filme-imagem" style="display:block; margin-top:10px; color:white;">Capa do Filme:</label>
+    <input type="file" id="filme-imagem" accept="image/*">
+    
+    <button id="btn-salvar-filme" >Cadastrar Filme</button>
+    <button class="btn-fechar" onclick="fechar()">Cancelar</button>
   </div>
 
 </div>

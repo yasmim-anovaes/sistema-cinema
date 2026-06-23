@@ -453,3 +453,18 @@ h3 {
 .btn-fechar:active {
     transform: scale(0.97);
 }
+
+#btn-salvar-filme{
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, crimson, #ff1e4d);
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4);
+    margin-top: 10px;
+}

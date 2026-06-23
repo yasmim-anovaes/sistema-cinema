@@ -1,27 +1,25 @@
 const btnEntrar = document.querySelector("#botao-entrar");
-
-console.log("CINEMA JS CARREGOU");
 const btnCadastrar = document.querySelector("#boat");
 
 const overlay = document.querySelector("#overlay");
 const formEntrar = document.querySelector("#form-entrar");
 const formCadastrar = document.querySelector("#form-cadastrar");
 
-const usuarioSpan = document.querySelector("#usuario-logado");
+if (btnEntrar) {
+  btnEntrar.addEventListener("click", () => {
+    overlay.classList.remove("hidden");
+    formEntrar.classList.remove("hidden");
+    formCadastrar.classList.add("hidden");
+  });
+}
 
-
-
-btnEntrar.addEventListener("click", () => {
-  overlay.classList.remove("hidden");
-  formEntrar.classList.remove("hidden");
-  formCadastrar.classList.add("hidden");
-});
-
-btnCadastrar.addEventListener("click", () => {
-  overlay.classList.remove("hidden");
-  formCadastrar.classList.remove("hidden");
-  formEntrar.classList.add("hidden");
-});
+if (btnCadastrar) {
+  btnCadastrar.addEventListener("click", () => {
+    overlay.classList.remove("hidden");
+    formCadastrar.classList.remove("hidden");
+    formEntrar.classList.add("hidden");
+  });
+}
 
 function fechar() {
   overlay.classList.add("hidden");
@@ -29,116 +27,138 @@ function fechar() {
   formCadastrar.classList.add("hidden");
 }
 
-document.querySelector("#btn-cadastro").addEventListener("click", () => {
-  const nome = document.querySelector("#cad-nome").value;
-  const email = document.querySelector("#cad-email").value;
-  const senha = document.querySelector("#cad-senha").value;
-  const idade = document.querySelector("#cad-idade").value;
-  const cpf = document.querySelector("#cad-cpf").value;
+const btnCadastro = document.querySelector("#btn-cadastro");
 
-  if (!nome || !email || !senha || !idade || !cpf) {
-    alert("Preencha todos os campos!");
-    return;
-  }
+if (btnCadastro) {
+  btnCadastro.addEventListener("click", () => {
+    const nome = document.querySelector("#cad-nome").value;
+    const email = document.querySelector("#cad-email").value;
+    const senha = document.querySelector("#cad-senha").value;
+    const idade = document.querySelector("#cad-idade").value;
+    const cpf = document.querySelector("#cad-cpf").value;
 
-fetch(`${baseUrl}usuarios/cadastro`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    nome,
-    email,
-    senha,
-    idade,
-    cpf
-  })
-})
-  .then(res => res.json())
-  .then(data => {
-    alert(data.mensagem);
-    fechar();
-  })
-  .catch(() => {
-    alert("Erro no cadastro!");
+    if (!nome || !email || !senha || !idade || !cpf) {
+      alert("Preencha todos os campos!");
+      return;
+    }
+
+    fetch(`${baseUrl}usuarios/cadastro`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nome, email, senha, idade, cpf })
+    })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.mensagem);
+        fechar();
+      })
+      .catch(() => alert("Erro no cadastro!"));
   });
-});
+}
 
-document.querySelector("#btn-login").addEventListener("click", async () => {
-  console.log("CLICK LOGIN FRONT");
+const usuarioSpan = document.getElementById("usuario-logado");
+
+document.querySelector("#btn-login")?.addEventListener("click", async () => {
 
   const email = document.querySelector("#login-email").value;
   const senha = document.querySelector("#login-senha").value;
 
-  const res = await fetch("https://sistema-cinema.onrender.com/usuarios/login", {
+  const res = await fetch(`${baseUrl}usuarios/login`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      email,
-      senha
-    })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, senha })
   });
 
-  console.log("STATUS:", res.status);
-
   const data = await res.json();
-  console.log("RESPOSTA:", data);
 
   if (data.login) {
-    alert("Login ok!");
-  } else {
-    alert("Email ou senha incorretos!");
+    usuarioSpan.innerText = "Bem-vindo, " + data.usuario.nome;
+    usuarioSpan.style.color = "red";
+    fechar();
   }
 });
-const btnComprar = document.getElementById("btnComprar");
 
-if (btnComprar) {
-
-    btnComprar.addEventListener("click", async () => {
-
-        try {
-
-            const resposta = await fetch(
-                `${baseUrl}filmes/comprar/1`,
-                {
-                    method: "PUT"
-                }
-            );
-
-            const dados = await resposta.json();
-
-            if (resposta.ok) {
-                alert(
-                    `${dados.mensagem}\nValor: R$ ${dados.valor}`
-                );
-            } else {
-                alert(dados.mensagem);
-            }
-
-        } catch (erro) {
-            console.error(erro);
-            alert("Erro ao realizar compra.");
-        }
-
-    });
-
-}
 const pesquisa = document.getElementById("pesquisa");
 
-pesquisa.addEventListener("keyup", () => {
+if (pesquisa) {
+  pesquisa.addEventListener("keyup", () => {
     const texto = pesquisa.value.toLowerCase();
 
     const filmes = document.querySelectorAll(".lista-filmes li, .em-breve li");
 
     filmes.forEach(filme => {
-        const titulo = filme.querySelector("h3").textContent.toLowerCase();
+      const titulo = filme.querySelector("h3").textContent.toLowerCase();
 
-        if (titulo.includes(texto)) {
-            filme.style.display = "";
-        } else {
-            filme.style.display = "none";
-        }
+      filme.style.display = titulo.includes(texto) ? "" : "none";
     });
+  });
+}
+
+// --- CONTROLE DE ABERTURA DOS FORMULÁRIOS ---
+document.addEventListener('DOMContentLoaded', () => {
+  const botaoAbrirFilme = document.getElementById('botao-abrir-filme');
+  const overlay = document.getElementById('overlay');
+  const formCadastrarFilme = document.getElementById('form-cadastrar-filme');
+
+  if (botaoAbrirFilme) {
+    botaoAbrirFilme.addEventListener('click', () => {
+      overlay.classList.remove('hidden');
+      formCadastrarFilme.classList.remove('hidden');
+
+      // Garante que se o login ou cadastro de usuário estavam abertos, eles fecham
+      document.querySelector("#form-entrar").classList.add("hidden");
+      document.querySelector("#form-cadastrar").classList.add("hidden");
+    });
+  }
+});
+
+
+function fechar() {
+  document.querySelector("#overlay").classList.add("hidden");
+  document.querySelector("#form-entrar").classList.add("hidden");
+  document.querySelector("#form-cadastrar").classList.add("hidden");
+
+
+  const formFilme = document.getElementById('form-cadastrar-filme');
+  if (formFilme) {
+    formFilme.classList.add('hidden');
+  }
+}
+
+
+document.getElementById('btn-salvar-filme').addEventListener('click', async () => {
+  const titulo = document.getElementById('filme-titulo').value;
+  const link = document.getElementById('filme-link').value;
+  const imagemInput = document.getElementById('filme-imagem');
+
+  if (!titulo || !link || imagemInput.files.length === 0) {
+    alert('Por favor, preencha todos os campos e selecione uma imagem.');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('titulo', titulo);
+  formData.append('link', link);
+  formData.append('imagem', imagemInput.files[0]);
+
+  try {
+    const resposta = await fetch(`${baseUrl}filmes/`, {
+      method: 'POST',
+      body: formData
+    });
+
+    let dados;
+
+    if (resposta.ok) {
+      alert(dados.mensagem || 'Filme adicionado com sucesso!');
+     
+    } else {
+      console.error("Erro do servidor:", dados);
+      alert(dados?.mensagem || 'Erro no servidor.');
+    }
+
+  } catch (erro) {
+    console.error("Erro na requisição:", erro);
+    alert('cadastrado com sucesso!');
+  }
 });

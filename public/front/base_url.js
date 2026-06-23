@@ -1,1 +1,1 @@
-const baseUrl = "https://sistema-cinema.onrender.com/";
+const baseUrl = "http://localhost:3000/";

@@ -1,23 +1,27 @@
-const filme = require("../models/filmeModel");
+const Filme = require('../models/filmeModel');
 
+exports.cadastrarFilme = (req, res) => {
+    const { titulo, link } = req.body;
 
+    if (!req.file) {
+        return res.status(400).json({ mensagem: 'A imagem do filme não foi enviada.' });
+    }
 
-exports.listar = (req, res) => {
-    filme.listar((err, resultados) => {
-        if (err) return res.status(500).json(err);
-        res.json(resultados);
-    });
-};
+    const imagem = req.file.filename;
 
+    Filme.criar(titulo, link, imagem, (erro, resultado) => {
+        if (erro) {
+            console.error("ERRO REAL DO BANCO:", erro); 
 
-exports.comprar = (req, res) => {
-    const idFilme = req.params.id;
-
-    filme.comprar(idFilme, (err, resultado) => {
-        if (err) {
-          
-            return res.status(400).json({ mensagem: err.message });
+            return res.status(500).json({ 
+                mensagem: erro.sqlMessage || 'Erro ao salvar no banco'
+            });
         }
-        res.status(200).json(resultado);
+
+        return res.status(201).json({
+            mensagem: 'Filme cadastrado com sucesso!',
+            id: resultado.insertId
+        });
     });
 };
+``

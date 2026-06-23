@@ -1,11 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/filmeController');
+const multer = require('multer');
+const path = require('path');
+const filmeController = require('../controllers/filmeController'); 
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, '../../uploads'));
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
 
-router.get('/', controller.listar);
+const upload = multer({ storage });
 
-
-router.put('/comprar/:id', controller.comprar);
+router.post('/', upload.single('imagem'), filmeController.cadastrarFilme);
 
 module.exports = router;

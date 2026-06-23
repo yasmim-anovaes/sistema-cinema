@@ -1,3 +1,19 @@
+
+const usuario = require("../models/usuarioModel.js");
+
+exports.cadastrar = (req, res) => {
+    const dados = req.body;
+
+    usuario.criar(dados, (err) => {
+        if (err) {
+            return res.status(500).json(err);
+        }
+
+        res.json({ mensagem: "Usuario cadastro com sucesso" });
+    });
+};
+
+
 exports.login = (req,res) => {
 
     console.log("=== LOGIN CHAMADO ===");

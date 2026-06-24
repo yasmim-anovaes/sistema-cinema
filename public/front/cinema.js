@@ -21,12 +21,6 @@ if (btnCadastrar) {
   });
 }
 
-function fechar() {
-  overlay.classList.add("hidden");
-  formEntrar.classList.add("hidden");
-  formCadastrar.classList.add("hidden");
-}
-
 const btnCadastro = document.querySelector("#btn-cadastro");
 
 if (btnCadastro) {
@@ -59,22 +53,27 @@ if (btnCadastro) {
 const usuarioSpan = document.getElementById("usuario-logado");
 
 document.querySelector("#btn-login").addEventListener("click", async () => {
-
   const email = document.querySelector("#login-email").value;
   const senha = document.querySelector("#login-senha").value;
 
-  const res = await fetch(`${baseUrl}usuarios/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, senha })
-  });
+  try {
+    const res = await fetch(`${baseUrl}usuarios/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, senha })
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (data.login) {
-    usuarioSpan.innerText = "Bem-vindo, " + data.usuario.nome;
-    usuarioSpan.style.color = "red";
-    fechar();
+    if (data.login) {
+      usuarioSpan.innerText = "Bem-vindo, " + data.usuario.nome;
+      usuarioSpan.style.color = "red";
+      fechar();
+    } else {
+      alert(data.mensagem || "Usuário ou senha incorretos!");
+    }
+  } catch (erro) {
+    alert("Erro ao tentar fazer login. Verifique sua conexão.");
   }
 });
 
@@ -83,12 +82,10 @@ const pesquisa = document.getElementById("pesquisa");
 if (pesquisa) {
   pesquisa.addEventListener("keyup", () => {
     const texto = pesquisa.value.toLowerCase();
-
     const filmes = document.querySelectorAll(".lista-filmes li, .em-breve li");
 
     filmes.forEach(filme => {
       const titulo = filme.querySelector("h3").textContent.toLowerCase();
-
       filme.style.display = titulo.includes(texto) ? "" : "none";
     });
   });
@@ -111,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// FUNÇÃO GLOBAL PARA FECHAR OS MODAIS
+// FUNÇÃO GLOBAL PARA FECHAR OS MODAIS (ÚNICA)
 function fechar() {
   document.querySelector("#overlay").classList.add("hidden");
   document.querySelector("#form-entrar").classList.add("hidden");
@@ -123,7 +120,7 @@ function fechar() {
   }
 }
 
-// --- SALVAR NOVO FILME (CHAMANDO A FUNÇÃO VISUAL) ---
+// --- SALVAR NOVO FILME ---
 document.getElementById('btn-salvar-filme').addEventListener('click', async () => {
   const titulo = document.getElementById('filme-titulo').value;
   const link = document.getElementById('filme-link').value;
@@ -140,24 +137,23 @@ document.getElementById('btn-salvar-filme').addEventListener('click', async () =
   formData.append('imagem', imagemInput.files[0]);
 
   try {
-    const resposta = await fetch(`${baseUrl}filmes/`, {
+    // Ajustado para evitar o problema da barra dupla caso baseUrl termine com '/'
+    const urlFinal = baseUrl.endsWith('/') ? `${baseUrl}filmes` : `${baseUrl}/filmes`;
+
+    const resposta = await fetch(urlFinal, {
       method: 'POST',
       body: formData
     });
 
-    // Capturando os dados da resposta vindos do banco/API
     const dados = await resposta.json();
 
     if (resposta.ok) {
       alert(dados.mensagem || 'Filme adicionado com sucesso!');
       
-      // Definição da URL da imagem (se o banco não trouxer em dados.imagemUrl, criamos uma temporária)
       const urlImagemGerada = dados.imagemUrl || URL.createObjectURL(imagemInput.files[0]);
       
-      // AQUI ELA ESTÁ SENDO CHAMADA! Passando os dados capturados
       adicionarFilmeNaTela(titulo, link, urlImagemGerada);
       
-      // Limpa os campos do formulário para o próximo cadastro
       document.getElementById('filme-titulo').value = '';
       document.getElementById('filme-link').value = '';
       imagemInput.value = '';

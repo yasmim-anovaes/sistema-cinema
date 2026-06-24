@@ -58,7 +58,7 @@ if (btnCadastro) {
 
 const usuarioSpan = document.getElementById("usuario-logado");
 
-document.querySelector("#btn-login")?.addEventListener("click", async () => {
+document.querySelector("#btn-login").addEventListener("click", async () => {
 
   const email = document.querySelector("#login-email").value;
   const senha = document.querySelector("#login-senha").value;
@@ -105,19 +105,17 @@ document.addEventListener('DOMContentLoaded', () => {
       overlay.classList.remove('hidden');
       formCadastrarFilme.classList.remove('hidden');
 
-      // Garante que se o login ou cadastro de usuário estavam abertos, eles fecham
       document.querySelector("#form-entrar").classList.add("hidden");
       document.querySelector("#form-cadastrar").classList.add("hidden");
     });
   }
 });
 
-
+// FUNÇÃO GLOBAL PARA FECHAR OS MODAIS
 function fechar() {
   document.querySelector("#overlay").classList.add("hidden");
   document.querySelector("#form-entrar").classList.add("hidden");
   document.querySelector("#form-cadastrar").classList.add("hidden");
-
 
   const formFilme = document.getElementById('form-cadastrar-filme');
   if (formFilme) {
@@ -125,7 +123,7 @@ function fechar() {
   }
 }
 
-
+// --- SALVAR NOVO FILME (CHAMANDO A FUNÇÃO VISUAL) ---
 document.getElementById('btn-salvar-filme').addEventListener('click', async () => {
   const titulo = document.getElementById('filme-titulo').value;
   const link = document.getElementById('filme-link').value;
@@ -147,10 +145,24 @@ document.getElementById('btn-salvar-filme').addEventListener('click', async () =
       body: formData
     });
 
-    let dados;
+    // Capturando os dados da resposta vindos do banco/API
+    const dados = await resposta.json();
 
     if (resposta.ok) {
       alert(dados.mensagem || 'Filme adicionado com sucesso!');
+      
+      // Definição da URL da imagem (se o banco não trouxer em dados.imagemUrl, criamos uma temporária)
+      const urlImagemGerada = dados.imagemUrl || URL.createObjectURL(imagemInput.files[0]);
+      
+      // AQUI ELA ESTÁ SENDO CHAMADA! Passando os dados capturados
+      adicionarFilmeNaTela(titulo, link, urlImagemGerada);
+      
+      // Limpa os campos do formulário para o próximo cadastro
+      document.getElementById('filme-titulo').value = '';
+      document.getElementById('filme-link').value = '';
+      imagemInput.value = '';
+
+      fechar();
      
     } else {
       console.error("Erro do servidor:", dados);
@@ -159,6 +171,22 @@ document.getElementById('btn-salvar-filme').addEventListener('click', async () =
 
   } catch (erro) {
     console.error("Erro na requisição:", erro);
-    alert('cadastrado com sucesso!');
+    alert('Erro ao tentar conectar com o servidor.');
   }
 });
+
+// FUNÇÃO RESPONSÁVEL POR REPLICAR O HTML NA TELA
+function adicionarFilmeNaTela(titulo, link, urlImagem) {
+  const listaFilmes = document.querySelector('.lista-filmes');
+  const novoItem = document.createElement('li');
+  
+  novoItem.innerHTML = `
+    <figure class="imagens">
+      <h3>${titulo}</h3>
+      <a href="${link}"><img src="${urlImagem}" alt="Imagem do filme ${titulo}"></a>
+      <figcaption></figcaption>
+    </figure>
+  `;
+
+  listaFilmes.appendChild(novoItem);
+}

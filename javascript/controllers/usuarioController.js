@@ -25,7 +25,6 @@ exports.login = (req,res) => {
     console.log("Senha:", senha);
     
 
-    
 
     usuario.login(email, senha, (err, resultado) => {
 

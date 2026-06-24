@@ -8,6 +8,7 @@ const usuario = {
     },
 
     login: (email, senha, callback) => {
+        console.log("ENTROU NO LOGIN REPOSITORIES?")
         const sql = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
 
         db.query(sql, [email, senha], (err, result) => {

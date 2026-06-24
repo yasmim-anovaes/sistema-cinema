@@ -15,7 +15,7 @@ exports.cadastrar = (req, res) => {
 
 
 exports.login = (req,res) => {
-
+    
     console.log("=== LOGIN CHAMADO ===");
 
 
@@ -23,8 +23,13 @@ exports.login = (req,res) => {
 
     console.log("Email:", email);
     console.log("Senha:", senha);
+    
+
+    
 
     usuario.login(email, senha, (err, resultado) => {
+
+        console.log("ESTA ENTRANDO NO LOGIN?");
 
         if(err){
             console.log("ERRO:", err);
@@ -34,11 +39,13 @@ exports.login = (req,res) => {
         console.log("RESULTADO:", resultado);
 
         if(resultado.length > 0){
+            console.log("É MAIOR QUE 0?");
             res.json({
                 login: true,
                 usuario: resultado[0]
             });
         }else{
+            console.log("RETORNOU FALSE?");
             res.json({
                 login: false
             });

@@ -91,7 +91,7 @@ if (pesquisa) {
   });
 }
 
-// --- CONTROLE DE ABERTURA DOS FORMULÁRIOS ---
+
 document.addEventListener('DOMContentLoaded', () => {
   const botaoAbrirFilme = document.getElementById('botao-abrir-filme');
   const overlay = document.getElementById('overlay');
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// FUNÇÃO GLOBAL PARA FECHAR OS MODAIS (ÚNICA)
+
 function fechar() {
   document.querySelector("#overlay").classList.add("hidden");
   document.querySelector("#form-entrar").classList.add("hidden");
@@ -120,7 +120,7 @@ function fechar() {
   }
 }
 
-// --- SALVAR NOVO FILME ---
+
 document.getElementById('btn-salvar-filme').addEventListener('click', async () => {
   const titulo = document.getElementById('filme-titulo').value;
   const link = document.getElementById('filme-link').value;
@@ -137,7 +137,7 @@ document.getElementById('btn-salvar-filme').addEventListener('click', async () =
   formData.append('imagem', imagemInput.files[0]);
 
   try {
-    // Ajustado para evitar o problema da barra dupla caso baseUrl termine com '/'
+    
     const urlFinal = baseUrl.endsWith('/') ? `${baseUrl}filmes` : `${baseUrl}/filmes`;
 
     const resposta = await fetch(urlFinal, {
@@ -171,7 +171,7 @@ document.getElementById('btn-salvar-filme').addEventListener('click', async () =
   }
 });
 
-// FUNÇÃO RESPONSÁVEL POR REPLICAR O HTML NA TELA
+
 function adicionarFilmeNaTela(titulo, link, urlImagem) {
   const listaFilmes = document.querySelector('.lista-filmes');
   const novoItem = document.createElement('li');

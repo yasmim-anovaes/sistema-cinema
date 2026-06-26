@@ -1,3 +1,5 @@
+const baseUrl = "https://sistema-cinema.onrender.com/";
+
 const btnEntrar = document.querySelector("#botao-entrar");
 const btnCadastrar = document.querySelector("#boat");
 
@@ -19,6 +21,17 @@ if (btnCadastrar) {
     formCadastrar.classList.remove("hidden");
     formEntrar.classList.add("hidden");
   });
+}
+
+function fechar() {
+  overlay.classList.add("hidden");
+  formEntrar.classList.add("hidden");
+  formCadastrar.classList.add("hidden");
+
+  const formFilme = document.getElementById('form-cadastrar-filme');
+  if (formFilme) {
+    formFilme.classList.add('hidden');
+  }
 }
 
 const btnCadastro = document.querySelector("#btn-cadastro");
@@ -56,24 +69,23 @@ document.querySelector("#btn-login").addEventListener("click", async () => {
   const email = document.querySelector("#login-email").value;
   const senha = document.querySelector("#login-senha").value;
 
-  try {
-    const res = await fetch(`${baseUrl}usuarios/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, senha })
-    });
+  const res = await fetch(`${baseUrl}usuarios/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, senha })
+  });
 
-    const data = await res.json();
+  const data = await res.json();
 
-    if (data.login) {
-      usuarioSpan.innerText = "Bem-vindo, " + data.usuario.nome;
-      usuarioSpan.style.color = "red";
-      fechar();
-    } else {
-      alert(data.mensagem || "Usuário ou senha incorretos!");
-    }
-  } catch (erro) {
-    alert("Erro ao tentar fazer login. Verifique sua conexão.");
+  if (data.login) {
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('usuario', JSON.stringify(data.usuario));
+
+    usuarioSpan.innerText = "Bem-vindo, " + data.usuario.nome;
+    usuarioSpan.style.color = "red";
+    fechar();
+  } else {
+    alert(data.mensagem || "Email ou senha incorretos");
   }
 });
 
@@ -91,10 +103,9 @@ if (pesquisa) {
   });
 }
 
-
+// --- CONTROLE DE ABERTURA DOS FORMULÁRIOS ---
 document.addEventListener('DOMContentLoaded', () => {
   const botaoAbrirFilme = document.getElementById('botao-abrir-filme');
-  const overlay = document.getElementById('overlay');
   const formCadastrarFilme = document.getElementById('form-cadastrar-filme');
 
   if (botaoAbrirFilme) {
@@ -108,19 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-
-function fechar() {
-  document.querySelector("#overlay").classList.add("hidden");
-  document.querySelector("#form-entrar").classList.add("hidden");
-  document.querySelector("#form-cadastrar").classList.add("hidden");
-
-  const formFilme = document.getElementById('form-cadastrar-filme');
-  if (formFilme) {
-    formFilme.classList.add('hidden');
-  }
-}
-
-
+// --- SALVAR NOVO FILME (COM TOKEN) ---
 document.getElementById('btn-salvar-filme').addEventListener('click', async () => {
   const titulo = document.getElementById('filme-titulo').value;
   const link = document.getElementById('filme-link').value;
@@ -137,11 +136,18 @@ document.getElementById('btn-salvar-filme').addEventListener('click', async () =
   formData.append('imagem', imagemInput.files[0]);
 
   try {
-    
-    const urlFinal = baseUrl.endsWith('/') ? `${baseUrl}filmes` : `${baseUrl}/filmes`;
+    const token = localStorage.getItem('token');
 
-    const resposta = await fetch(urlFinal, {
+    if (!token) {
+      alert("Você precisa estar logado para cadastrar um filme!");
+      return;
+    }
+
+    const resposta = await fetch(`${baseUrl}filmes/`, {
       method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
       body: formData
     });
 
@@ -151,26 +157,21 @@ document.getElementById('btn-salvar-filme').addEventListener('click', async () =
       alert(dados.mensagem || 'Filme adicionado com sucesso!');
       
       const urlImagemGerada = dados.imagemUrl || URL.createObjectURL(imagemInput.files[0]);
-      
       adicionarFilmeNaTela(titulo, link, urlImagemGerada);
-      
+
       document.getElementById('filme-titulo').value = '';
       document.getElementById('filme-link').value = '';
       imagemInput.value = '';
 
       fechar();
-     
     } else {
-      console.error("Erro do servidor:", dados);
-      alert(dados?.mensagem || 'Erro no servidor.');
+      alert(dados.mensagem || 'Erro ao cadastrar filme');
     }
-
   } catch (erro) {
-    console.error("Erro na requisição:", erro);
+    console.error(erro);
     alert('Erro ao tentar conectar com o servidor.');
   }
 });
-
 
 function adicionarFilmeNaTela(titulo, link, urlImagem) {
   const listaFilmes = document.querySelector('.lista-filmes');

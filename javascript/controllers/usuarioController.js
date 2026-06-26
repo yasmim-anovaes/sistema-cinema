@@ -1,53 +1,73 @@
-
 const usuario = require("../models/usuarioModel.js");
+const jwt = require('jsonwebtoken');
 
 exports.cadastrar = (req, res) => {
     const dados = req.body;
 
+    if (!dados.nome || !dados.email || !dados.senha || !dados.idade || !dados.cpf) {
+        return res.status(400).json({ 
+            mensagem: "Todos os campos são obrigatórios!" 
+        });
+    }
+
     usuario.criar(dados, (err) => {
         if (err) {
-            return res.status(500).json(err);
+            console.error("Erro ao cadastrar:", err);
+            return res.status(500).json({ 
+                mensagem: "Erro ao cadastrar usuário", 
+                erro: err.sqlMessage || err 
+            });
         }
-
-        res.json({ mensagem: "Usuario cadastro com sucesso" });
+        res.json({ mensagem: "Usuario cadastrado com sucesso" });
     });
 };
 
-
-exports.login = (req,res) => {
-    
-    console.log("=== LOGIN CHAMADO ===");
-
-
+exports.login = (req, res) => {
     const { email, senha } = req.body;
 
-    console.log("Email:", email);
-    console.log("Senha:", senha);
-    
-
+    if (!email || !senha) {
+        return res.status(400).json({ 
+            login: false, 
+            mensagem: "Email e senha são obrigatórios!" 
+        });
+    }
 
     usuario.login(email, senha, (err, resultado) => {
-
-        console.log("ESTA ENTRANDO NO LOGIN?");
-
-        if(err){
-            console.log("ERRO:", err);
-            return res.status(500).json(err);
+        if (err) {
+            console.error("Erro no login:", err);
+            return res.status(500).json({ 
+                login: false, 
+                mensagem: "Erro interno no servidor" 
+            });
         }
 
-        console.log("RESULTADO:", resultado);
+        if (resultado.length > 0) {
+            const user = resultado[0];
 
-        if(resultado.length > 0){
-            console.log("É MAIOR QUE 0?");
+            const token = jwt.sign(
+                {
+                    id: user.id,
+                    nome: user.nome,
+                    email: user.email
+                },
+                process.env.JWT_SECRET || 'senha_super_secreta_123',
+                { expiresIn: '1h' }
+            );
+
             res.json({
                 login: true,
-                usuario: resultado[0]
+                usuario: {
+                    id: user.id,
+                    nome: user.nome,
+                    email: user.email
+                },
+                token: token
             });
-        }else{
-            console.log("RETORNOU FALSE?");
-            res.json({
-                login: false
+        } else {
+            res.json({ 
+                login: false, 
+                mensagem: "Email ou senha incorretos" 
             });
         }
     });
-}
+};
